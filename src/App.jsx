@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { MdDeleteForever } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 import './App.css'
 
 //main function
 function App() {
+  const [isCompleteScreen, setIsCompleteScreen] = useState (false);
   return (
     <div className='App'>
       {/*Heading */}
@@ -24,18 +27,33 @@ function App() {
           </div>
         </div>
 
-          {/*Buttons to enter text */}
+          {/*Buttons to switch between to do and completed */}
         <div className='bnt-area'>
-          <button>Todo</button>
-          <button>Completed</button>
+          
+          <button 
+            className={`secondaryBtn ${isCompleteScreen === false && 'active'}`}
+            onClick={() => setIsCompleteScreen (false)}
+          >Todo</button>
+          <button
+            className={`secondaryBtn ${isCompleteScreen === true && 'active'}`}
+            onClick={() => setIsCompleteScreen (true)}>Completed</button>
         </div>
+  
         <div className='todo-list'>
 
           <div className='todo-list-item'>
-            <h3>Task 1</h3>
-            <p>Description</p>
-          </div>
+            <div>
+              <h3>Task 1</h3>
+              <p>Description</p>
+            </div>
+          
 
+            {/*Displaying imported icons */}
+            <div>
+              <MdDeleteForever className='icon'/>
+              <FaCheck className="check-icon"/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
