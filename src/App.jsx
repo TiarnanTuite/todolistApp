@@ -28,6 +28,16 @@ function App() {
 
   };
 
+  {/*function to delete to dos removing them from the page and local storage */}
+  const handleDeleteTodo = (index)=>{
+    let reducedTodo = [...allTodos]
+    reducedTodo.splice(index)
+
+    {/*removing locally and setting the todo list to the new version with the selected deletion removed */}
+    localStorage.setItem("todolist", JSON.stringify(reducedTodo))
+    setTodos(reducedTodo)
+  }
+
   {/*needed to use the values stored locally*/}
   useEffect(()=>{
     {/*converting back to array*/}
@@ -83,8 +93,8 @@ function App() {
             
               {/*Displaying imported icons */}
               <div>
-                <MdDeleteForever className='icon'/>
-                <FaCheck className="check-icon"/>
+                <MdDeleteForever className='icon' onClick={()=>handleDeleteTodo(index)} title="Delete?"/>
+                <FaCheck className="check-icon" onClick={()=>handleCompleteTodo(index)} title="Complete?"/>
               </div>
 
             </div>
