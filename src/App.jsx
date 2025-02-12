@@ -10,6 +10,7 @@ function App() {
   const [allTodos, setTodos] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [completedTodos, setCompletedTodos] = useState ([]);
 
   {/*function for add button */}
   const handleAddTodo = ()=>{
@@ -36,6 +37,31 @@ function App() {
     {/*removing locally and setting the todo list to the new version with the selected deletion removed */}
     localStorage.setItem("todolist", JSON.stringify(reducedTodo))
     setTodos(reducedTodo)
+  }
+
+  const handleCompleteTodo = (index)=>{
+    
+    //variables for displaying time of completion
+    let now = new Date();
+    let dd = now.getDate();
+    let mm = now.getMonth() + 1;
+    let yyyy = now.getFullYear();
+    let h = now.getHours();
+    let m = now.getMinutes();
+    let s = now.getSeconds();
+    let completedOn = dd + "-" + mm + "-" + yyyy + " at " + h + ":" + m + ":" + s;
+
+    let filteredItem = {
+       ...allTodos[index],
+       completedOn:completedOn
+    }
+  
+    let updatedCompletedArr = [...completedTodos];
+    updatedCompletedArr.push(filteredItem);
+    setCompletedTodos(updatedCompletedArr);
+    // calls delete function to remove from todos after adding to complete tab
+    handleDeleteTodo(index);
+
   }
 
   {/*needed to use the values stored locally*/}
@@ -83,7 +109,8 @@ function App() {
   
         <div className='todo-list'>
 
-          {allTodos.map((item, index)=>{
+          {/*to do screen */}
+          {isCompleteScreen == false && allTodos.map((item, index)=>{
             return(
               <div className='todo-list-item' key={index}>
               <div>
@@ -100,6 +127,25 @@ function App() {
             </div>
             )
              })}
+          
+          {/*Completed screen */}
+          {isCompleteScreen == true && completedTodos.map((item, index)=>{
+            return(
+              <div className='todo-list-item' key={index}>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <p><small>Completed On: {item.completedOn}</small></p>
+              </div>
+            
+              {/*Displaying imported icons */}
+              <div>
+                <MdDeleteForever className='icon' onClick={()=>handleDeleteTodo(index)} title="Delete?"/>
+              </div>
+
+            </div>
+            )
+          })}
           
         </div>
       </div>
