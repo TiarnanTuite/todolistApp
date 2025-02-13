@@ -32,7 +32,8 @@ function App() {
   {/*function to delete to dos removing them from the page and local storage */}
   const handleDeleteTodo = (index)=>{
     let reducedTodo = [...allTodos]
-    reducedTodo.splice(index)
+    //add a 1 after index to prevent the whole list from deleting
+    reducedTodo.splice(index, 1)
 
     {/*removing locally and setting the todo list to the new version with the selected deletion removed */}
     localStorage.setItem("todolist", JSON.stringify(reducedTodo))
@@ -69,7 +70,8 @@ function App() {
 
   const handleDeleteCompleteTodo = ((index)=>{
     let reducedTodo = [...completedTodos]
-    reducedTodo.splice(index)
+    //add a 1 after index to prevent the whole list from deleting
+    reducedTodo.splice(index, 1)
 
     {/*removing locally and setting the completed list to the new version with the selected deletion removed */}
     localStorage.setItem("completedTodos", JSON.stringify(reducedTodo))
