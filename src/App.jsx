@@ -62,21 +62,39 @@ function App() {
     // calls delete function to remove from todos after adding to complete tab
     handleDeleteTodo(index);
 
+    {/*storing array as a string locally */}
+    localStorage.setItem("completedTodos", JSON.stringify(updatedCompletedArr))
+
   }
+
+  const handleDeleteCompleteTodo = ((index)=>{
+    let reducedTodo = [...completedTodos]
+    reducedTodo.splice(index)
+
+    {/*removing locally and setting the completed list to the new version with the selected deletion removed */}
+    localStorage.setItem("completedTodos", JSON.stringify(reducedTodo))
+    setCompletedTodos(reducedTodo)
+   
+  });
 
   {/*needed to use the values stored locally*/}
   useEffect(()=>{
     {/*converting back to array*/}
     let savedTodo = JSON.parse(localStorage.getItem("todolist"))
+    let savedCompletedTodo = JSON.parse(localStorage.getItem("completedTodos"))
     if(savedTodo){
       setTodos(savedTodo);
+    }
+
+    if(savedCompletedTodo){
+      setCompletedTodos(savedCompletedTodo);
     }
   },[]);
 
   return (
     <div className='App'>
       {/*Heading */}
-      <h1>My Todos</h1>
+      <h1>My Todo List</h1>
 
       {/*making the input boxes */}
       <div className='todo-wrapper'>
@@ -140,7 +158,7 @@ function App() {
             
               {/*Displaying imported icons */}
               <div>
-                <MdDeleteForever className='icon' onClick={()=>handleDeleteTodo(index)} title="Delete?"/>
+                <MdDeleteForever className='icon' onClick={()=>handleDeleteCompleteTodo(index)} title="Delete?"/>
               </div>
 
             </div>
